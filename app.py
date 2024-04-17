@@ -31,17 +31,23 @@ def detect_faces(image):
 def main():
     st.title("Head counter for lazy folks :moyai:")
 
-    st.markdown("""
-        ###  :rainbow[How to use?]
-            1. Browse and upload an image (must be jpg, jpeg or png).
+    with st.sidebar:
+        st.markdown("""
+            ###  :rainbow[How to use?]
+            1. Upload an image (must be jpg, jpeg or png).
             2. Click on the "Start Count" button and get results.
-                
-        ###  :rainbow[How it works?]
-            This app uses a face detection algorithm called MTCNN to identify faces
-            in the image. Once the faces are detected, bounding boxes are overlayed 
-            around each detected face, which provides us with the total head count.
 
-    """)
+            ###  :rainbow[How it works?]
+            - This app uses a face detection algorithm called MTCNN to identify faces
+            in the image. 
+            - Once the faces are detected, bounding boxes are overlayed 
+            around each detected face
+            - The number of boxes provides us with the total head count.
+
+            *Note: Inaccuracies may occur due to factors such as cluttered or complex backgrounds, 
+            bad lighting, low image quality, partially covered faces, tilted head position, 
+            dataset biases, and implementation-related issues.*
+        """)
 
     uploaded_file = st.file_uploader('Choose an image:',type=["jpg", "jpeg", "png"])
 
@@ -53,8 +59,8 @@ def main():
         if st.button("Start Count"):
             with st.spinner("Detecting faces..."):
                 result_image, num_faces = detect_faces(image)
-            st.image(cv2.cvtColor(result_image, cv2.COLOR_BGR2RGB), use_column_width=True)
             st.subheader(f'There are {num_faces} people.')
+            st.image(cv2.cvtColor(result_image, cv2.COLOR_BGR2RGB), use_column_width=True)
             
 if __name__ == "__main__":
     main()
