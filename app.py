@@ -29,19 +29,32 @@ def detect_faces(image):
 
 
 def main():
-    st.title("Face Detection Web App")
-    
-    uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
+    st.title("Head counter for lazy folks :moyai:")
+
+    st.markdown("""
+        ###  :rainbow[How to use?]
+            1. Browse and upload an image (must be jpg, jpeg or png).
+            2. Click on the "Start Count" button and get results.
+                
+        ###  :rainbow[How it works?]
+            This app uses a face detection algorithm called MTCNN to identify faces
+            in the image. Once the faces are detected, bounding boxes are overlayed 
+            around each detected face, which provides us with the total head count.
+
+    """)
+
+    uploaded_file = st.file_uploader('Choose an image:',type=["jpg", "jpeg", "png"])
+
     
     if uploaded_file is not None:
         image = np.array(bytearray(uploaded_file.read()), dtype=np.uint8)
         image = cv2.imdecode(image, cv2.IMREAD_COLOR)
-        st.image(image, caption="Uploaded Image", use_column_width=True)
         
-        if st.button("Count Faces"):
+        if st.button("Start Count"):
             with st.spinner("Detecting faces..."):
                 result_image, num_faces = detect_faces(image)
-            st.image(result_image, caption=f"Detected {num_faces} face(s)", use_column_width=True)
+            st.image(cv2.cvtColor(result_image, cv2.COLOR_BGR2RGB), use_column_width=True)
+            st.subheader(f'There are {num_faces} people.')
             
 if __name__ == "__main__":
     main()
