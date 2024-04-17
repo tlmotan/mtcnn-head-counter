@@ -2,7 +2,6 @@ import streamlit as st
 import cv2
 import numpy as np
 from mtcnn import MTCNN
-from io import BytesIO
 
 def detect_faces(image):
     mtcnn = MTCNN(min_face_size=20) 
